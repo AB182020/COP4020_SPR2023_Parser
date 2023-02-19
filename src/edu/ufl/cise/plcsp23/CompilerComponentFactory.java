@@ -12,10 +12,17 @@ package edu.ufl.cise.plcsp23;
 
 public class CompilerComponentFactory
 {
+	public static IScanner makeScanner(String input)
+	{
+		//char[] inp_Char = input.toCharArray();
+		//Add statement to return an instance of your scanner
+		return new Scanner(input) ;
+
+	}
 	public static IParser makeAssignment2Parser(String input)
 			throws LexicalException
 	{
-		return null;
+	return new Parser(input);
 	}
 
 }
