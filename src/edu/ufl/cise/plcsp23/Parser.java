@@ -18,7 +18,11 @@ public class Parser implements IParser
     IToken.Kind kind;
     IToken nextToken;
 
+    boolean condFlag = false;
+    boolean parenFlag = false;
     Expr rightE;
+
+    ConditionalExpr conditionalE;
     Expr leftE;
     String lexTemp;
     Expr e = null;
@@ -28,6 +32,11 @@ public class Parser implements IParser
     NumLitExpr numLit;
     StringLitExpr stringLit;
     UnaryExpr unary;
+    BinaryExpr binary;
+
+    Expr gaurdE;
+    Expr trueCase;
+    Expr falseCase;
     IScanner scanner;
     int currentPos =0;
     IToken firstToken;
@@ -50,11 +59,28 @@ public class Parser implements IParser
          leftE = orExpr();
        }
        else
-         leftE =  conditionalExpr();
+       {
+           leftE =  conditionalExpr();
+       }
+
        return leftE;
     }
     public IToken consume() throws SyntaxException, LexicalException {
-        currentPos++;
+
+        while(inputParserChars[currentPos] == ' ')
+        {
+            currentPos++;
+        }
+        if(firstToken.getSourceLocation() != null && firstToken.getKind() != IToken.Kind.EOF)
+        {
+
+          //  currentPos =  currentPos+firstToken.getSourceLocation().column();
+            currentPos =  currentPos + ((Token) firstToken).getLength();
+        }
+        else
+        {
+            currentPos = currentPos+1;
+        }
         lexTemp = inputParser.substring(currentPos,inputParser.length());
         scanner = CompilerComponentFactory.makeScanner(lexTemp);
         IToken token;
@@ -66,20 +92,39 @@ public class Parser implements IParser
     }
     public Expr primaryExpr() throws SyntaxException, LexicalException {
         IToken  currentToken;
+
             if(nextToken == null)
             {
                 currentToken = firstToken;
             }
+
             else
             {
                 currentToken = nextToken;
+                if(condFlag != true && parenFlag != true)
+                {
+
+                    nextToken = consume();
+                }
+
             }
 
-             nextToken = consume();
+
             if(currentToken.getKind() == IToken.Kind.NUM_LIT)
             {
                 numLit = new NumLitExpr(currentToken);
-                return numLit;
+                if(nextToken == null)
+                {
+                    nextToken = consume();
+                }
+                if(nextToken.getKind() == IToken.Kind.EOF)
+                    return numLit;
+                else if(parenFlag == true)
+                {
+                    return numLit;
+                }
+                else
+                    expr();
             }
             else if(currentToken.getKind() == IToken.Kind.STRING_LIT)
             {
@@ -103,19 +148,37 @@ public class Parser implements IParser
             }
 
 
-        else if((kind == IToken.Kind.LPAREN))
+        else if((currentToken.getKind() == IToken.Kind.LPAREN || currentToken.getKind() == IToken.Kind.RPAREN))
         {
-            consume();
-            expr();
-            if(firstToken.getKind() == IToken.Kind.RPAREN)
+            parenFlag = true;
+            if(currentToken.getKind() == IToken.Kind.RPAREN)
             {
-                consume();
-                //e = expr();
-
+                return e;
             }
-            return e;
+          else
+            {
+               nextToken = consume();
+                firstToken = nextToken;
+                e =expr();
+            }
+
+
+//            if(nextToken.getKind() == IToken.Kind.RPAREN)
+//            {
+//               nextToken = consume();
+//                if(nextToken.getKind() == IToken.Kind.EOF)
+//                    return e;
+//                //e = expr();
+//
+//            }
+
 
         }
+        else
+            {
+                throw new SyntaxException("Unable to parse given expression");
+            }
+
 
 
         return e;
@@ -140,7 +203,8 @@ public class Parser implements IParser
     }
 
 
-    public Expr multiplicativeExpr() throws SyntaxException, LexicalException {
+    public Expr multiplicativeExpr() throws SyntaxException, LexicalException
+    {
         leftE = null;
         rightE = null;
         kind = firstToken.getKind();
@@ -156,7 +220,8 @@ public class Parser implements IParser
 
 
     }
-    public Expr additiveExpr() throws SyntaxException, LexicalException {
+    public Expr additiveExpr() throws SyntaxException, LexicalException
+    {
         leftE = null;
         rightE = null;
         kind = firstToken.getKind();
@@ -170,7 +235,8 @@ public class Parser implements IParser
         }
         return leftE;
     }
-    public Expr powerExpr() throws SyntaxException, LexicalException {
+    public Expr powerExpr() throws SyntaxException, LexicalException
+    {
         leftE = null;
         rightE = null;
         kind = firstToken.getKind();
@@ -227,9 +293,38 @@ public class Parser implements IParser
         }
         return leftE;
     }
-    public Expr conditionalExpr()
-    {
-        return null;
+    public Expr conditionalExpr() throws LexicalException, SyntaxException {
+        condFlag = true;
+        kind = firstToken.getKind();
+        IToken currentToken = firstToken;
+        if(kind == IToken.Kind.RES_if)
+        {
+            nextToken =  consume();
+            gaurdE = primaryExpr();
+            while(nextToken.getKind() != IToken.Kind.QUESTION)
+            {
+                 firstToken = nextToken;
+                 nextToken = consume();
+
+            }
+
+            nextToken = consume();
+            trueCase = primaryExpr();
+            while(nextToken.getKind() != IToken.Kind.QUESTION)
+            {
+                firstToken = nextToken;
+                nextToken = consume();
+
+            }
+            nextToken = consume();
+            falseCase = primaryExpr();
+          //  kind = nextToken.getKind();
+           conditionalE = new ConditionalExpr(currentToken,gaurdE,trueCase,falseCase);
+
+        }
+        else
+           throw new SyntaxException("Error");
+        return conditionalE;
     }
 
 
@@ -238,15 +333,22 @@ public class Parser implements IParser
     public AST parse() throws PLCException,SyntaxException
     {
         lexInput = new String(inputParser);
-       scanner = CompilerComponentFactory.makeScanner(lexInput);
        if(inputParser == "")
        {
            throw new SyntaxException("Empty Prog");
        }
        else
        {
+
+               lexInput = inputParser.substring(currentPos,inputParser.length());
+               scanner = CompilerComponentFactory.makeScanner(lexInput);
                firstToken = scanner.next();
                e = expr();
+
+               //currentPos = Scanner.pos;
+
+
+
 
            return e;
        }

@@ -7,7 +7,7 @@ public class Scanner implements IScanner
 {
     final String input;
     final char[] inputChars;
-    int pos; //position of ch
+     int pos; //position of ch
     char ch; //next char
     Token token;
     NumLitToken NumToken;
@@ -183,25 +183,25 @@ public class Scanner implements IScanner
                 if(this.ch =='"')
                 {
 
-                    currentToken = String.valueOf(this.ch);
                     currentPos = pos;
                     pos++;
-//                    if(esc != true)
-//                        startCol=pos;
-                    // next();
                     this.ch = inputChars[pos];
+                    currentToken = String.valueOf(this.ch);
+
                     while(this.ch != '"' && this.ch !='\n' &&  this.ch !='\t'&& this.ch !='\r'&& this.ch !='\f'&&this.ch !='\"'&&this.ch!='\\' )
                     {
-                        currentToken = currentToken+this.ch;
                         currentPos =pos;
                         pos++;
                         if(!CheckEOF(pos))
                         {
                             this.ch = inputChars[pos];
-                           // currentToken = currentToken+this.ch;
+                            if(this.ch == '"')
+                                break;
+                            else
+                                currentToken = currentToken+this.ch;
                         }
                     }
-                    currentToken = currentToken+this.ch;
+                    //currentToken = currentToken+this.ch;
                     state = State.START;
                         IToken  StrToken = new StringLitToken(IToken.Kind.STRING_LIT,pos,currentToken.length(),currentToken,new Token.SourceLocation(line,startCol));
                         //
