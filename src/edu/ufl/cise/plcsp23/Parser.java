@@ -12,18 +12,20 @@ public class Parser implements IParser
 
     AST astObj;
     String lexInput;
-
+    IToken.Kind preOp = null;
     String inputParser;
     final char[] inputParserChars;
     IToken.Kind kind;
     IToken nextToken;
-
+    int tempPos;
     boolean condFlag = false;
     boolean parenFlag = false;
     Expr rightE;
 
     ConditionalExpr conditionalE;
     Expr leftE;
+
+    Expr leftBinaryExp= null;
     String lexTemp;
     Expr e = null;
     RandomExpr rnd;
@@ -51,19 +53,19 @@ public class Parser implements IParser
     **Function for expression productions
     * <expr> ::= <conditional_expr> | <or_expr>
      */
-    public Expr expr() throws SyntaxException, LexicalException {
-      //  e = null;
+    public Expr expr() throws PLCException
+    {
         kind = firstToken.getKind();
-       if(kind != IToken.Kind.RES_if)
-       {
-         leftE = orExpr();
-       }
-       else
-       {
-           leftE =  conditionalExpr();
-       }
+        if(kind != IToken.Kind.RES_if)
+        {
+            leftE = orExpr();
+        }
+        else
+        {
+            leftE =  conditionalExpr();
+        }
 
-       return leftE;
+        return leftE;
     }
     public IToken consume() throws SyntaxException, LexicalException {
 
@@ -90,7 +92,7 @@ public class Parser implements IParser
        return token;
 
     }
-    public Expr primaryExpr() throws SyntaxException, LexicalException {
+    public Expr primaryExpr() throws PLCException {
         IToken  currentToken;
 
             if(nextToken == null)
@@ -101,7 +103,7 @@ public class Parser implements IParser
             else
             {
                 currentToken = nextToken;
-                if(condFlag != true && parenFlag != true)
+                if(condFlag != true && parenFlag != true &&currentToken.getKind() != IToken.Kind.EOF)
                 {
 
                     nextToken = consume();
@@ -117,14 +119,35 @@ public class Parser implements IParser
                 {
                     nextToken = consume();
                 }
-                if(nextToken.getKind() == IToken.Kind.EOF)
+//                if(nextToken.getKind() != IToken.Kind.EOF)
+//                    nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.EOF || parenFlag == true)
                     return numLit;
-                else if(parenFlag == true)
+
+                else if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
                 {
-                    return numLit;
+                    if(leftBinaryExp == null)
+                        leftBinaryExp = numLit;
+                    else
+                    {
+                        binary = new BinaryExpr(currentToken,leftBinaryExp,preOp,numLit);
+                        leftBinaryExp = binary;
+                    }
+                    preOp = nextToken.getKind();
+                    nextToken = consume();
+                    if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                        throw new SyntaxException("Invalid Op");
+                    else
+                    {
+
+                        rightE = expr();
+                        binary = new BinaryExpr(currentToken,leftBinaryExp,preOp,rightE);
+                        return binary;
+                    }
+
+
                 }
-                else
-                    expr();
+                return numLit;
             }
             else if(currentToken.getKind() == IToken.Kind.STRING_LIT)
             {
@@ -143,7 +166,35 @@ public class Parser implements IParser
             }
             else if(currentToken.getKind() == IToken.Kind.IDENT)
             {
+
                 idnt = new IdentExpr(currentToken);
+
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.QUESTION || nextToken.getKind() == IToken.Kind.EOF)
+                {
+                    return idnt;
+                }
+
+
+              //  nextToken = consume();
+
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                {
+                 leftBinaryExp = idnt;
+                  IToken.Kind op = nextToken.getKind();
+                  nextToken = consume();
+                  if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                      throw new SyntaxException("Invalid Op");
+                  else
+                  {
+                      rightE = expr();
+                      binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                      return binary;
+                  }
+
+
+
+                }
                 return idnt;
             }
 
@@ -184,7 +235,7 @@ public class Parser implements IParser
         return e;
     }
 
-    public Expr unaryExpr() throws SyntaxException, LexicalException {
+    public Expr unaryExpr() throws PLCException {
 
         kind = firstToken.getKind();
         if(kind == IToken.Kind.BANG || kind == IToken.Kind.RES_sin ||kind == IToken.Kind.RES_cos||kind == IToken.Kind.RES_atan||kind == IToken.Kind.MINUS )
@@ -203,10 +254,9 @@ public class Parser implements IParser
     }
 
 
-    public Expr multiplicativeExpr() throws SyntaxException, LexicalException
-    {
-        leftE = null;
-        rightE = null;
+    public Expr multiplicativeExpr() throws PLCException {
+//        leftE = null;
+//        rightE = null;
         kind = firstToken.getKind();
         leftE = unaryExpr();
 
@@ -220,10 +270,9 @@ public class Parser implements IParser
 
 
     }
-    public Expr additiveExpr() throws SyntaxException, LexicalException
-    {
-        leftE = null;
-        rightE = null;
+    public Expr additiveExpr() throws PLCException {
+//        leftE = null;
+//        rightE = null;
         kind = firstToken.getKind();
         leftE = multiplicativeExpr();
 
@@ -235,10 +284,9 @@ public class Parser implements IParser
         }
         return leftE;
     }
-    public Expr powerExpr() throws SyntaxException, LexicalException
-    {
-        leftE = null;
-        rightE = null;
+    public Expr powerExpr() throws PLCException {
+//        leftE = null;
+//        rightE = null;
         kind = firstToken.getKind();
         leftE = additiveExpr();
 
@@ -250,9 +298,9 @@ public class Parser implements IParser
         }
         return leftE;
     }
-    public Expr comparisonExpr() throws SyntaxException, LexicalException {
-        leftE = null;
-        rightE = null;
+    public Expr comparisonExpr() throws PLCException {
+//        leftE = null;
+//        rightE = null;
         kind = firstToken.getKind();
         leftE = powerExpr();
 
@@ -264,9 +312,9 @@ public class Parser implements IParser
         }
         return leftE;
     }
-    public Expr andExpr() throws SyntaxException, LexicalException {
-        leftE = null;
-        rightE = null;
+    public Expr andExpr() throws PLCException {
+      // leftE = null;
+      //  rightE = null;
         kind = firstToken.getKind();
         leftE = comparisonExpr();
 
@@ -279,21 +327,22 @@ public class Parser implements IParser
         return leftE;
     }
 
-    public Expr orExpr() throws SyntaxException, LexicalException {
-        leftE = null;
-        rightE = null;
+    public Expr orExpr() throws PLCException
+    {
+//        leftE = null;
+//        rightE = null;
         kind = firstToken.getKind();
-       leftE = andExpr();
+        leftE = andExpr();
 
         while(kind == IToken.Kind.OR || kind == IToken.Kind.BITOR)
         {
             consume();
-           rightE = andExpr();
-          // leftE =
+            rightE = andExpr();
+            // leftE =
         }
         return leftE;
     }
-    public Expr conditionalExpr() throws LexicalException, SyntaxException {
+    public Expr conditionalExpr() throws PLCException {
         condFlag = true;
         kind = firstToken.getKind();
         IToken currentToken = firstToken;
@@ -301,21 +350,22 @@ public class Parser implements IParser
         {
             nextToken =  consume();
             gaurdE = primaryExpr();
-            while(nextToken.getKind() != IToken.Kind.QUESTION)
-            {
-                 firstToken = nextToken;
-                 nextToken = consume();
-
-            }
-
+//            if(nextToken.getKind() != IToken.Kind.QUESTION)
+//            {
+//                 firstToken = nextToken;
+//                 nextToken = consume();
+//
+//            }
+            firstToken = nextToken;
             nextToken = consume();
             trueCase = primaryExpr();
-            while(nextToken.getKind() != IToken.Kind.QUESTION)
-            {
-                firstToken = nextToken;
-                nextToken = consume();
-
-            }
+//            while(nextToken.getKind() != IToken.Kind.QUESTION)
+//            {
+//                firstToken = nextToken;
+//                nextToken = consume();
+//
+//            }
+            firstToken = nextToken;
             nextToken = consume();
             falseCase = primaryExpr();
           //  kind = nextToken.getKind();
@@ -339,16 +389,12 @@ public class Parser implements IParser
        }
        else
        {
-
-               lexInput = inputParser.substring(currentPos,inputParser.length());
-               scanner = CompilerComponentFactory.makeScanner(lexInput);
-               firstToken = scanner.next();
-               e = expr();
+                    lexInput = inputParser.substring(currentPos,inputParser.length());
+                    scanner = CompilerComponentFactory.makeScanner(lexInput);
+                    firstToken = scanner.next();
+                    e = expr();
 
                //currentPos = Scanner.pos;
-
-
-
 
            return e;
        }

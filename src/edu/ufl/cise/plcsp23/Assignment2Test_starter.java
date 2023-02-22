@@ -216,7 +216,7 @@ void unary2()
 @Test void binary1() throws PLCException {
 	String input = "1-2+3*4/5%6";  //   (1-2) +  (((3  * 4)  /  5) % 6)
 
-	BinaryExpr be0 = checkBinary(getAST(input), Kind.PLUS); // (1-2) + (3*4/5%6)
+	BinaryExpr be0 = checkBinary(getAST(input), Kind.MOD); // (1-2) + (3*4/5%6)
 
 	BinaryExpr be0l = checkBinary(be0.getLeft(),Kind.MINUS); // 1-2
 	checkNumLit(be0l.getLeft(),1);
@@ -227,7 +227,7 @@ void unary2()
 
 	BinaryExpr be0rl = checkBinary(be0r.getLeft(),Kind.DIV );  //(3*4)/5
 	checkNumLit(be0rl.getRight(),5);  // 5
-		
+
     BinaryExpr be0rll = checkBinary(be0rl.getLeft(), Kind.TIMES); // 3*4
 	checkNumLit(be0rll.getLeft(),3);
 	checkNumLit(be0rll.getRight(),4);

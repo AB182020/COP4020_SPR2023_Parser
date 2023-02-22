@@ -13,7 +13,9 @@ package edu.ufl.cise.plcsp23.ast;
 import java.util.Objects;
 
 import edu.ufl.cise.plcsp23.IToken;
+import edu.ufl.cise.plcsp23.LexicalException;
 import edu.ufl.cise.plcsp23.PLCException;
+import edu.ufl.cise.plcsp23.SyntaxException;
 
 public abstract class AST {
 
@@ -23,7 +25,7 @@ public abstract class AST {
 		this.firstToken = firstToken;
 	}
 
-	public abstract Object visit(ASTVisitor v, Object arg) throws PLCException;
+	public abstract Object visit(ASTVisitor v, Object arg) throws PLCException, LexicalException, SyntaxException;
 
 	public IToken getFirstToken() {
 		return firstToken;

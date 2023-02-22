@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95fa9bd5-837a-48b4-9070-159896fd7845" name="Changes" comment="setup inital project">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Parser.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/NumLitToken.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Scanner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/StringLitToken.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/CompilerComponentFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/CompilerComponentFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/IParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/IParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/ast/Expr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/ast/Expr.java" afterDir="false" />
+    <list default="true" id="95fa9bd5-837a-48b4-9070-159896fd7845" name="Changes" comment="10 test cases passed,Error 1&#10;                     Numlit&#10;                     Unary1&#10;                     EmptyProg&#10;                     StringLit&#10;                     Z&#10;                     Rand&#10;                     Ident&#10;                     Primary&#10;                     Condtional 0">
+      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/exprEvalVisitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/ast/AST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/ast/AST.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,8 +64,8 @@
       <recent name="edu.ufl.cise.plcsp23" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.Assignment2Test_starter.error0">
-    <configuration name="Assignment2Test_starter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager">
+    <configuration name="Assignment2Test_starter.binary0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Parser" />
       <extension name="coverage">
         <pattern>
@@ -84,28 +75,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Assignment2Test_starter.Z" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Parser" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plcsp23.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="Z" />
+      <option name="METHOD_NAME" value="binary0" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Assignment2Test_starter.error0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Assignment2Test_starter.binary1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Parser" />
       <extension name="coverage">
         <pattern>
@@ -115,7 +91,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="error0" />
+      <option name="METHOD_NAME" value="binary1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Assignment2Test_starter.conditional0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Parser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plcsp23.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
+      <option name="METHOD_NAME" value="conditional0" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -137,7 +129,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Assignment2Test_starter.rand" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Assignment2Test_starter.numLit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Parser" />
       <extension name="coverage">
         <pattern>
@@ -147,7 +139,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
       <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="rand" />
+      <option name="METHOD_NAME" value="numLit" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Assignment2Test_starter.stringLit" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="Parser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plcsp23.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
+      <option name="METHOD_NAME" value="stringLit" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -155,10 +163,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.Assignment2Test_starter.error0" />
-        <item itemvalue="JUnit.Assignment2Test_starter" />
-        <item itemvalue="JUnit.Assignment2Test_starter.rand" />
-        <item itemvalue="JUnit.Assignment2Test_starter.Z" />
+        <item itemvalue="JUnit.Assignment2Test_starter.binary0" />
+        <item itemvalue="JUnit.Assignment2Test_starter.binary1" />
+        <item itemvalue="JUnit.Assignment2Test_starter.numLit" />
+        <item itemvalue="JUnit.Assignment2Test_starter.conditional0" />
         <item itemvalue="JUnit.Assignment2Test_starter.ident" />
       </list>
     </recent_temporary>
@@ -175,7 +183,9 @@
       <workItem from="1676603524708" duration="1000" />
       <workItem from="1676603560919" duration="226000" />
       <workItem from="1676603789808" duration="41544000" />
-      <workItem from="1676839677643" duration="355000" />
+      <workItem from="1676839677643" duration="9781000" />
+      <workItem from="1676921341701" duration="30131000" />
+      <workItem from="1677021619018" duration="14194000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1676604625701</created>
@@ -191,7 +201,28 @@
       <option name="project" value="LOCAL" />
       <updated>1676605607227</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="setup inital project">
+      <created>1676840288391</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1676840288391</updated>
+    </task>
+    <task id="LOCAL-00004" summary="setup inital project">
+      <created>1676840370262</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1676840370262</updated>
+    </task>
+    <task id="LOCAL-00005" summary="10 test cases passed,Error 1&#10;                     Numlit&#10;                     Unary1&#10;                     EmptyProg&#10;                     StringLit&#10;                     Z&#10;                     Rand&#10;                     Ident&#10;                     Primary&#10;                     Condtional 0">
+      <created>1676953006189</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1676953006189</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,8 +254,10 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="init commit" />
+    <MESSAGE value="empty program, unary case 1, primary scenarios are fixed" />
     <MESSAGE value="setup inital project" />
-    <option name="LAST_COMMIT_MESSAGE" value="setup inital project" />
+    <MESSAGE value="10 test cases passed,Error 1&#10;                     Numlit&#10;                     Unary1&#10;                     EmptyProg&#10;                     StringLit&#10;                     Z&#10;                     Rand&#10;                     Ident&#10;                     Primary&#10;                     Condtional 0" />
+    <option name="LAST_COMMIT_MESSAGE" value="10 test cases passed,Error 1&#10;                     Numlit&#10;                     Unary1&#10;                     EmptyProg&#10;                     StringLit&#10;                     Z&#10;                     Rand&#10;                     Ident&#10;                     Primary&#10;                     Condtional 0" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -236,53 +269,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="78" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="79" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="83" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
           <line>204</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
-          <line>88</line>
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
-          <line>248</line>
-          <option name="timeStamp" value="104" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
-          <line>250</line>
-          <option name="timeStamp" value="105" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
           <line>53</line>
           <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
-          <line>91</line>
-          <option name="timeStamp" value="107" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
@@ -294,7 +287,238 @@
           <line>268</line>
           <option name="timeStamp" value="112" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>185</line>
+          <option name="timeStamp" value="114" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>166</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>153</line>
+          <option name="timeStamp" value="131" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>154</line>
+          <option name="timeStamp" value="132" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Scanner.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="133" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Scanner.java</url>
+          <line>454</line>
+          <option name="timeStamp" value="139" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>266</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>268</line>
+          <option name="timeStamp" value="144" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>200</line>
+          <option name="timeStamp" value="158" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>175</line>
+          <option name="timeStamp" value="160" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>150</line>
+          <option name="timeStamp" value="162" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>165</line>
+          <option name="timeStamp" value="163" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>169</line>
+          <option name="timeStamp" value="167" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>237</line>
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>238</line>
+          <option name="timeStamp" value="177" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>239</line>
+          <option name="timeStamp" value="179" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>240</line>
+          <option name="timeStamp" value="180" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>155</line>
+          <option name="timeStamp" value="184" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>159</line>
+          <option name="timeStamp" value="185" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>249</line>
+          <option name="timeStamp" value="189" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>211</line>
+          <option name="timeStamp" value="193" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>270</line>
+          <option name="timeStamp" value="210" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>271</line>
+          <option name="timeStamp" value="211" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>147</line>
+          <option name="timeStamp" value="212" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>276</line>
+          <option name="timeStamp" value="215" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>368</line>
+          <option name="timeStamp" value="225" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>359</line>
+          <option name="timeStamp" value="226" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>351</line>
+          <option name="timeStamp" value="228" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>85</line>
+          <option name="timeStamp" value="229" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>169</line>
+          <option name="timeStamp" value="230" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>180</line>
+          <option name="timeStamp" value="232" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>189</line>
+          <option name="timeStamp" value="234" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>182</line>
+          <option name="timeStamp" value="235" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>184</line>
+          <option name="timeStamp" value="236" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>191</line>
+          <option name="timeStamp" value="237" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>142</line>
+          <option name="timeStamp" value="242" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>260</line>
+          <option name="timeStamp" value="245" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="257" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>220</line>
+          <option name="timeStamp" value="259" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>218</line>
+          <option name="timeStamp" value="260" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java</url>
+          <line>221</line>
+          <option name="timeStamp" value="261" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="262" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>128</line>
+          <option name="timeStamp" value="263" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>130</line>
+          <option name="timeStamp" value="264" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java</url>
+          <line>135</line>
+          <option name="timeStamp" value="265" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.lang.String" memberName="coder" />
+        <PinnedItemInfo parentTag="edu.ufl.cise.plcsp23.ast.NumLitExpr" memberName="firstToken" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
