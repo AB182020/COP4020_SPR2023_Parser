@@ -7,7 +7,7 @@ public class Scanner implements IScanner
 {
     final String input;
     final char[] inputChars;
-     int pos; //position of ch
+    int pos; //position of ch
     char ch; //next char
     Token token;
     NumLitToken NumToken;
@@ -117,7 +117,7 @@ public class Scanner implements IScanner
     {
         HashMap<String, char[]> ops = new HashMap<>();
         CreateMapsRes(reservedWords);
-       CreateMapsOp(ops);
+        CreateMapsOp(ops);
         while(true) //read each character from input string until token is returned
         {switch (state)
         {
@@ -162,9 +162,9 @@ public class Scanner implements IScanner
                     state = State.START;
                     if(CheckReserved(currentToken))
                     {
-                       // IToken.SourceLocation Src = new IToken.SourceLocation(line,startCol);
-                         IToken token = new Token(checkReservedKind(currentToken),pos,currentToken.length(),currentToken,new Token.SourceLocation(line,startCol));
-                         startCol+= currentToken.length();
+                        // IToken.SourceLocation Src = new IToken.SourceLocation(line,startCol);
+                        IToken token = new Token(checkReservedKind(currentToken),pos,currentToken.length(),currentToken,new Token.SourceLocation(line,startCol));
+                        startCol+= currentToken.length();
 
 //
                         return token;
@@ -172,8 +172,8 @@ public class Scanner implements IScanner
 
                     else
                     {
-                      IToken  token = new Token(IToken.Kind.IDENT,pos,currentToken.length(),currentToken,new Token.SourceLocation(line,startCol));
-                      //
+                        IToken  token = new Token(IToken.Kind.IDENT,pos,currentToken.length(),currentToken,new Token.SourceLocation(line,startCol));
+                        //
                         startCol+=currentToken.length();
                         return token;
                     }
@@ -182,31 +182,88 @@ public class Scanner implements IScanner
                 //string literal
                 if(this.ch =='"')
                 {
+                    if(pos>1 && inputChars[pos-1] == '\n'&& inputChars[pos+1] == '\n')
+                    {
+                        if(currentToken=="")
+                            throw new LexicalException("Error");
+                    }
 
-                    currentPos = pos;
                     pos++;
+                    currentPos = pos;
                     this.ch = inputChars[pos];
                     currentToken = String.valueOf(this.ch);
+                    pos++;
+                    this.ch = inputChars[pos];
+                    if(this.ch != '"')
+                        currentToken = currentToken+this.ch;
 
-                    while(this.ch != '"' && this.ch !='\n' &&  this.ch !='\t'&& this.ch !='\r'&& this.ch !='\f'&&this.ch !='\"'&&this.ch!='\\' )
+
+                    while(this.ch != '"' && this.ch !='\n' &&  this.ch !='\r'&& this.ch !='\f')
                     {
-                        currentPos =pos;
+
+                        //currentPos =pos;
                         pos++;
                         if(!CheckEOF(pos))
                         {
+                            if(inputChars[pos-1] =='\\')
+                            {
+                                if(inputChars[pos] != 't' && inputChars[pos] != 'n' && inputChars[pos] != 'r' && inputChars[pos] !='"' && inputChars[pos] != 'f' && inputChars[pos] != '\\')
+                                    throw new LexicalException("Error");
+                            }
+
+
+
                             this.ch = inputChars[pos];
                             if(this.ch == '"')
-                                break;
+                            {
+                                //currentToken = currentToken+this.ch;
+                                pos++;
+                                this.ch = inputChars[pos];
+                                if(this.ch == '"')
+                                {
+
+                                    // currentToken = currentToken+this.ch;
+                                    pos++;
+                                    this.ch = inputChars[pos];
+                                    break;
+                                }
+
+                            }
+                            else if(this.ch =='~')
+                            {
+                                pos++;
+                                this.ch = inputChars[pos];
+                                while(this.ch != '\n')
+                                {
+                                    pos++;
+                                    this.ch = inputChars[pos];
+                                }
+
+                            }
+
                             else
-                                currentToken = currentToken+this.ch;
+                            {
+                                if(inputChars[pos+1] == '~')
+                                {
+                                    if(this.ch != ' ')
+                                    {
+                                        currentToken = currentToken+this.ch;
+                                    }
+                                }
+                                else
+                                    currentToken = currentToken+this.ch;
+                            }
+
                         }
                     }
                     //currentToken = currentToken+this.ch;
                     state = State.START;
-                        IToken  StrToken = new StringLitToken(IToken.Kind.STRING_LIT,pos,currentToken.length(),currentToken,new Token.SourceLocation(line,startCol));
-                        //
-                        startCol+=currentToken.length();
-                        return StrToken;
+                    IToken  StrToken = new StringLitToken(IToken.Kind.STRING_LIT,pos,currentToken.length(),currentToken,new Token.SourceLocation(line,startCol));
+                    //
+                    startCol+=currentToken.length();
+                    if(currentToken.equals('\n'))
+                        throw new LexicalException("error");
+                    return StrToken;
 
 
                 }
@@ -239,7 +296,7 @@ public class Scanner implements IScanner
                                 {
                                     throw new LexicalException("Token too Big");
                                 }
-                              NumToken = new NumLitToken(IToken.Kind.NUM_LIT,pos,currentToken.length(),Integer.parseInt(currentToken));
+                                NumToken = new NumLitToken(IToken.Kind.NUM_LIT,pos,currentToken.length(),Integer.parseInt(currentToken));
                                 startCol+=currentToken.length();
                                 return  NumToken;
 
@@ -406,34 +463,41 @@ public class Scanner implements IScanner
                     esc = true;
                     if(this.ch =='\n')
                     {
-
+//                        if(inputChars[pos+1] != 't' && inputChars[pos+1] !='r'&& inputChars[pos+1] !='f'&& inputChars[pos+1] !='n'&& inputChars[pos+1] !='\\' && inputChars[pos+1] !='\"' && inputChars[pos+1] !=' '&& inputChars[pos+1] !='"'&& inputChars[pos+1] != '\0')
+//                            throw new LexicalException("LF by itself not allowed");
+//                        else
+//                        {
+//                            line++;
+//                            startCol =1;
+//                        }
                         line++;
                         startCol =1;
+
                     }
                     else
                     {
                         startCol++;
                     }
-                        pos++;
-                        currentToken += this.ch;
-                        if (CheckEOF(pos)) {
-                           IToken token = new Token(IToken.Kind.EOF, pos, currentToken.length(), currentToken,new Token.SourceLocation(line,startCol));
-                            new IToken.SourceLocation(line,startCol);
-                            startCol++;
-                            return token;
-                        } else
-                        {
-                            currentPos = pos;
-                            this.ch = inputChars[pos];
-                        }
+                    pos++;
+                    currentToken += this.ch;
+                    if (CheckEOF(pos)) {
+                        IToken token = new Token(IToken.Kind.EOF, pos, currentToken.length(), currentToken,new Token.SourceLocation(line,startCol));
+                        new IToken.SourceLocation(line,startCol);
+                        startCol++;
+                        return token;
+                    } else
+                    {
+                        currentPos = pos;
+                        this.ch = inputChars[pos];
+                    }
                 }
 
                 else if(this.ch=='\0')
                 {
-                   //startCol = pos;
-                   IToken token = new Token(IToken.Kind.EOF, pos, currentToken.length(), currentToken,new Token.SourceLocation(line,startCol));
+                    //startCol = pos;
+                    IToken token = new Token(IToken.Kind.EOF, pos, currentToken.length(), currentToken,new Token.SourceLocation(line,startCol));
                     new IToken.SourceLocation(line,startCol);
-               //     startCol++;
+                    //     startCol++;
                     return  token;
                 }
                 else if(this.ch =='~')

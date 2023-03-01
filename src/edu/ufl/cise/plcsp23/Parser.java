@@ -2,10 +2,7 @@ package edu.ufl.cise.plcsp23;
 
 import edu.ufl.cise.plcsp23.ast.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 public class Parser implements IParser
 {
@@ -50,8 +47,8 @@ public class Parser implements IParser
         inputParserChars = Arrays.copyOf(inputParser.toCharArray(),inputParser.length()+1);
     }
     /*
-    **Function for expression productions
-    * <expr> ::= <conditional_expr> | <or_expr>
+     **Function for expression productions
+     * <expr> ::= <conditional_expr> | <or_expr>
      */
     public Expr expr() throws PLCException
     {
@@ -76,127 +73,274 @@ public class Parser implements IParser
         if(firstToken.getSourceLocation() != null && firstToken.getKind() != IToken.Kind.EOF)
         {
 
-          //  currentPos =  currentPos+firstToken.getSourceLocation().column();
+            //  currentPos =  currentPos+firstToken.getSourceLocation().column();
             currentPos =  currentPos + ((Token) firstToken).getLength();
         }
         else
         {
             currentPos = currentPos+1;
         }
+        if(nextToken!= null)
+        {
+            if(nextToken.getKind() == IToken.Kind.OR || nextToken.getKind() == IToken.Kind.AND || nextToken.getKind() == IToken.Kind.EXP || nextToken.getKind()== IToken.Kind.LE || nextToken.getKind()== IToken.Kind.GE || nextToken.getKind()== IToken.Kind.EXP || nextToken.getKind()== IToken.Kind.EQ)
+                currentPos = currentPos+1;
+        }
         lexTemp = inputParser.substring(currentPos,inputParser.length());
         scanner = CompilerComponentFactory.makeScanner(lexTemp);
         IToken token;
-       token = scanner.next();
-       kind = token.getKind();
+        token = scanner.next();
+        kind = token.getKind();
 //       currentPos = currentPos+ token.getTokenString().length();
-       return token;
+        return token;
 
     }
     public Expr primaryExpr() throws PLCException {
         IToken  currentToken;
 
-            if(nextToken == null)
+        if(nextToken == null)
+        {
+            currentToken = firstToken;
+        }
+
+        else
+        {
+            currentToken = nextToken;
+            if(condFlag != true && parenFlag != true &&currentToken.getKind() != IToken.Kind.EOF)
             {
-                currentToken = firstToken;
-            }
-
-            else
-            {
-                currentToken = nextToken;
-                if(condFlag != true && parenFlag != true &&currentToken.getKind() != IToken.Kind.EOF)
-                {
-
-                    nextToken = consume();
-                }
-
-            }
-
-
-            if(currentToken.getKind() == IToken.Kind.NUM_LIT)
-            {
-                numLit = new NumLitExpr(currentToken);
-                if(nextToken == null)
-                {
-                    nextToken = consume();
-                }
-//                if(nextToken.getKind() != IToken.Kind.EOF)
-//                    nextToken = consume();
-                if(nextToken.getKind() == IToken.Kind.EOF || parenFlag == true)
-                    return numLit;
-
-                else if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
-                {
-                    if(leftBinaryExp == null)
-                        leftBinaryExp = numLit;
-                    else
-                    {
-                        binary = new BinaryExpr(currentToken,leftBinaryExp,preOp,numLit);
-                        leftBinaryExp = binary;
-                    }
-                    preOp = nextToken.getKind();
-                    nextToken = consume();
-                    if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
-                        throw new SyntaxException("Invalid Op");
-                    else
-                    {
-
-                        rightE = expr();
-                        binary = new BinaryExpr(currentToken,leftBinaryExp,preOp,rightE);
-                        return binary;
-                    }
-
-
-                }
-                return numLit;
-            }
-            else if(currentToken.getKind() == IToken.Kind.STRING_LIT)
-            {
-                stringLit = new StringLitExpr(currentToken);
-                return stringLit;
-            }
-            else if(currentToken.getKind() == IToken.Kind.RES_rand)
-            {
-                rnd = new RandomExpr(currentToken);
-                return rnd;
-            }
-            else if(currentToken.getKind() == IToken.Kind.RES_Z)
-            {
-                z = new ZExpr(currentToken);
-                return z;
-            }
-            else if(currentToken.getKind() == IToken.Kind.IDENT)
-            {
-
-                idnt = new IdentExpr(currentToken);
 
                 nextToken = consume();
-                if(nextToken.getKind() == IToken.Kind.QUESTION || nextToken.getKind() == IToken.Kind.EOF)
+            }
+
+        }
+
+
+        if(currentToken.getKind() == IToken.Kind.NUM_LIT)
+        {
+            numLit = new NumLitExpr(currentToken);
+            if(nextToken == null)
+            {
+                nextToken = consume();
+            }
+            IToken.Kind eofKind = null;
+            if(nextToken != null)
+            {
+                eofKind = nextToken.getKind();
+            }
+            if(eofKind != IToken.Kind.EOF)
+                nextToken = consume();
+            if(nextToken.getKind() == IToken.Kind.EOF || parenFlag == true)
+                return numLit;
+                //arithmetic
+            else if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD|| nextToken.getKind() == IToken.Kind.EXP)
+            {
+                if(leftBinaryExp == null)
+                    leftBinaryExp = numLit;
+                else
                 {
-                    return idnt;
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,preOp,numLit);
+                    leftBinaryExp = binary;
                 }
-
-
-              //  nextToken = consume();
-
+                preOp = nextToken.getKind();
+                nextToken = consume();
                 if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
                 {
-                 leftBinaryExp = idnt;
-                  IToken.Kind op = nextToken.getKind();
-                  nextToken = consume();
-                  if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
-                      throw new SyntaxException("Invalid Op");
-                  else
-                  {
-                      rightE = expr();
-                      binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
-                      return binary;
-                  }
 
-
-
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,preOp,rightE);
+                    return binary;
                 }
+
+
+            }
+            //Logical
+            else if(nextToken.getKind() == IToken.Kind.BITOR || nextToken.getKind() == IToken.Kind.OR || nextToken.getKind() == IToken.Kind.BITAND || nextToken.getKind() == IToken.Kind.AND)
+            {
+                leftBinaryExp = numLit;
+                IToken.Kind op = nextToken.getKind();
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+            }
+            //relational
+            else if(nextToken.getKind() == IToken.Kind.GE || nextToken.getKind() == IToken.Kind.GT || nextToken.getKind() == IToken.Kind.LE || nextToken.getKind() == IToken.Kind.LT || nextToken.getKind() == IToken.Kind.EQ)
+            {
+                leftBinaryExp = numLit;
+                IToken.Kind op = nextToken.getKind();
+
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+            }
+            return numLit;
+        }
+        else if(currentToken.getKind() == IToken.Kind.STRING_LIT)
+        {
+            stringLit = new StringLitExpr(currentToken);
+            return stringLit;
+        }
+        else if(currentToken.getKind() == IToken.Kind.RES_rand)
+        {
+            rnd = new RandomExpr(currentToken);
+            return rnd;
+        }
+        // Z block starts
+        else if(currentToken.getKind() == IToken.Kind.RES_Z)
+        {
+            z = new ZExpr(currentToken);
+            IToken.Kind eofKind = null;
+            if(nextToken != null)
+            {
+                eofKind = nextToken.getKind();
+            }
+            if(eofKind != IToken.Kind.EOF)
+                nextToken = consume();
+            if(nextToken.getKind() == IToken.Kind.QUESTION || nextToken.getKind() == IToken.Kind.EOF)
+            {
+                return z;
+            }
+
+            //binary arithmetic operation
+            if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD || nextToken.getKind() == IToken.Kind.EXP)
+            {
+                leftBinaryExp = z;
+                IToken.Kind op = nextToken.getKind();
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+
+
+            }
+            //LOGICAL
+            else if(nextToken.getKind() == IToken.Kind.BITOR || nextToken.getKind() == IToken.Kind.OR || nextToken.getKind() == IToken.Kind.BITAND || nextToken.getKind() == IToken.Kind.AND)
+            {
+                leftBinaryExp = z;
+                IToken.Kind op = nextToken.getKind();
+
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+            }
+            //relational operator
+            else if(nextToken.getKind() == IToken.Kind.GE || nextToken.getKind() == IToken.Kind.GT || nextToken.getKind() == IToken.Kind.LE || nextToken.getKind() == IToken.Kind.LT|| nextToken.getKind() == IToken.Kind.EQ)
+            {
+                leftBinaryExp = z;
+                IToken.Kind op = nextToken.getKind();
+
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+            }
+            return z;
+        }
+        else if(currentToken.getKind() == IToken.Kind.IDENT)
+        {
+
+            idnt = new IdentExpr(currentToken);
+            IToken.Kind eofKind = null;
+            if(nextToken != null)
+            {
+                eofKind = nextToken.getKind();
+            }
+            if(eofKind != IToken.Kind.EOF)
+                nextToken = consume();
+            if(nextToken.getKind() == IToken.Kind.QUESTION || nextToken.getKind() == IToken.Kind.EOF)
+            {
                 return idnt;
             }
+
+
+
+            //binary arithmetic operation
+            if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD|| nextToken.getKind() == IToken.Kind.EXP)
+            {
+                leftBinaryExp = idnt;
+                IToken.Kind op = nextToken.getKind();
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+
+
+            }
+            //Logical Op
+            else if(nextToken.getKind() == IToken.Kind.BITOR || nextToken.getKind() == IToken.Kind.OR || nextToken.getKind() == IToken.Kind.BITAND || nextToken.getKind() == IToken.Kind.AND)
+            {
+                leftBinaryExp = idnt;
+                IToken.Kind op = nextToken.getKind();
+
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+            }
+            //relational
+            else if(nextToken.getKind() == IToken.Kind.GE || nextToken.getKind() == IToken.Kind.GT || nextToken.getKind() == IToken.Kind.LE || nextToken.getKind() == IToken.Kind.LT|| nextToken.getKind() == IToken.Kind.EQ)
+            {
+                leftBinaryExp = idnt;
+                IToken.Kind op = nextToken.getKind();
+
+                nextToken = consume();
+                if(nextToken.getKind() == IToken.Kind.PLUS || nextToken.getKind() == IToken.Kind.MINUS|| nextToken.getKind() == IToken.Kind.DIV|| nextToken.getKind() == IToken.Kind.TIMES|| nextToken.getKind() == IToken.Kind.MOD)
+                    throw new SyntaxException("Invalid Op");
+                else
+                {
+                    rightE = expr();
+                    binary = new BinaryExpr(currentToken,leftBinaryExp,op,rightE);
+                    return binary;
+                }
+
+            }
+            return idnt;
+        }
 
 
         else if((currentToken.getKind() == IToken.Kind.LPAREN || currentToken.getKind() == IToken.Kind.RPAREN))
@@ -206,9 +350,9 @@ public class Parser implements IParser
             {
                 return e;
             }
-          else
+            else
             {
-               nextToken = consume();
+                nextToken = consume();
                 firstToken = nextToken;
                 e =expr();
             }
@@ -226,9 +370,9 @@ public class Parser implements IParser
 
         }
         else
-            {
-                throw new SyntaxException("Unable to parse given expression");
-            }
+        {
+            throw new SyntaxException("Unable to parse given expression");
+        }
 
 
 
@@ -271,8 +415,6 @@ public class Parser implements IParser
 
     }
     public Expr additiveExpr() throws PLCException {
-//        leftE = null;
-//        rightE = null;
         kind = firstToken.getKind();
         leftE = multiplicativeExpr();
 
@@ -280,7 +422,6 @@ public class Parser implements IParser
         {
             consume();
             rightE = multiplicativeExpr();
-            // leftE =
         }
         return leftE;
     }
@@ -298,48 +439,44 @@ public class Parser implements IParser
         }
         return leftE;
     }
-    public Expr comparisonExpr() throws PLCException {
-//        leftE = null;
-//        rightE = null;
+    public Expr comparisonExpr() throws PLCException
+    {
         kind = firstToken.getKind();
-        leftE = powerExpr();
+        leftE =powerExpr();
 
-        while(kind == IToken.Kind.GT || kind == IToken.Kind.LT || kind == IToken.Kind.LE|| kind == IToken.Kind.GE)
+        while(kind == IToken.Kind.LT || kind == IToken.Kind.GT || kind == IToken.Kind.GE || kind == IToken.Kind.LE )
         {
             consume();
-            rightE = powerExpr();
-            // leftE =
+            rightE =powerExpr();
         }
+
         return leftE;
     }
-    public Expr andExpr() throws PLCException {
-      // leftE = null;
-      //  rightE = null;
+    public Expr andExpr() throws PLCException
+    {
         kind = firstToken.getKind();
-        leftE = comparisonExpr();
+        leftE =comparisonExpr();
 
-        while(kind == IToken.Kind.AND || kind == IToken.Kind.BITAND)
+        while(kind == IToken.Kind.AND ||  kind == IToken.Kind.BITAND)
         {
             consume();
-            rightE = comparisonExpr();
-            // leftE =
+            rightE =comparisonExpr();
         }
+
         return leftE;
     }
 
     public Expr orExpr() throws PLCException
     {
-//        leftE = null;
-//        rightE = null;
         kind = firstToken.getKind();
-        leftE = andExpr();
+        leftE =andExpr();
 
-        while(kind == IToken.Kind.OR || kind == IToken.Kind.BITOR)
+        while(kind == IToken.Kind.OR ||  kind == IToken.Kind.BITOR)
         {
             consume();
-            rightE = andExpr();
-            // leftE =
+            rightE =andExpr();
         }
+
         return leftE;
     }
     public Expr conditionalExpr() throws PLCException {
@@ -368,12 +505,12 @@ public class Parser implements IParser
             firstToken = nextToken;
             nextToken = consume();
             falseCase = primaryExpr();
-          //  kind = nextToken.getKind();
-           conditionalE = new ConditionalExpr(currentToken,gaurdE,trueCase,falseCase);
+            //  kind = nextToken.getKind();
+            conditionalE = new ConditionalExpr(currentToken,gaurdE,trueCase,falseCase);
 
         }
         else
-           throw new SyntaxException("Error");
+            throw new SyntaxException("Error");
         return conditionalE;
     }
 
@@ -383,21 +520,21 @@ public class Parser implements IParser
     public AST parse() throws PLCException,SyntaxException
     {
         lexInput = new String(inputParser);
-       if(inputParser == "")
-       {
-           throw new SyntaxException("Empty Prog");
-       }
-       else
-       {
-                    lexInput = inputParser.substring(currentPos,inputParser.length());
-                    scanner = CompilerComponentFactory.makeScanner(lexInput);
-                    firstToken = scanner.next();
-                    e = expr();
+        if(inputParser == "")
+        {
+            throw new SyntaxException("Empty Prog");
+        }
+        else
+        {
+            lexInput = inputParser.substring(currentPos,inputParser.length());
+            scanner = CompilerComponentFactory.makeScanner(lexInput);
+            firstToken = scanner.next();
+            e = expr();
 
-               //currentPos = Scanner.pos;
+            //currentPos = Scanner.pos;
 
-           return e;
-       }
+            return e;
+        }
 
     }
 }

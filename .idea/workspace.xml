@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="95fa9bd5-837a-48b4-9070-159896fd7845" name="Changes" comment="10 test cases passed,Error 1&#10;                     Numlit&#10;                     Unary1&#10;                     EmptyProg&#10;                     StringLit&#10;                     Z&#10;                     Rand&#10;                     Ident&#10;                     Primary&#10;                     Condtional 0">
-      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/exprEvalVisitor.java" afterDir="false" />
+    <list default="true" id="95fa9bd5-837a-48b4-9070-159896fd7845" name="Changes" comment="Final Submission fixed binary0,errors">
+      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/hw2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2TestCases_Latest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/ast/hwAST" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Assignment2Test_starter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/ast/AST.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/ast/AST.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Scanner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/edu/ufl/cise/plcsp23/Scanner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,8 +64,8 @@
       <recent name="edu.ufl.cise.plcsp23" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Assignment2Test_starter.binary0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.Assignment2TestGrading">
+    <configuration name="Assignment2TestGrading" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Parser" />
       <extension name="coverage">
         <pattern>
@@ -74,14 +74,29 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="binary0" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2TestGrading" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Assignment2TestGrading.test3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Parser" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="edu.ufl.cise.plcsp23.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2TestGrading" />
+      <option name="METHOD_NAME" value="test3" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Assignment2Test_starter.binary1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Assignment2TestGrading.test6" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Parser" />
       <extension name="coverage">
         <pattern>
@@ -90,14 +105,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="binary1" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2TestGrading" />
+      <option name="METHOD_NAME" value="test6" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Assignment2Test_starter.conditional0" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Assignment2TestGrading.test7" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Parser" />
       <extension name="coverage">
         <pattern>
@@ -106,14 +121,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="conditional0" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2TestGrading" />
+      <option name="METHOD_NAME" value="test7" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Assignment2Test_starter.ident" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="Assignment2TestGrading.test8" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Parser" />
       <extension name="coverage">
         <pattern>
@@ -122,24 +137,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="ident" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Assignment2Test_starter.numLit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Parser" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="edu.ufl.cise.plcsp23.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="edu.ufl.cise.plcsp23" />
-      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2Test_starter" />
-      <option name="METHOD_NAME" value="numLit" />
+      <option name="MAIN_CLASS_NAME" value="edu.ufl.cise.plcsp23.Assignment2TestGrading" />
+      <option name="METHOD_NAME" value="test8" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -163,11 +162,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.Assignment2Test_starter.binary0" />
-        <item itemvalue="JUnit.Assignment2Test_starter.binary1" />
-        <item itemvalue="JUnit.Assignment2Test_starter.numLit" />
-        <item itemvalue="JUnit.Assignment2Test_starter.conditional0" />
-        <item itemvalue="JUnit.Assignment2Test_starter.ident" />
+        <item itemvalue="JUnit.Assignment2TestGrading" />
+        <item itemvalue="JUnit.Assignment2TestGrading.test8" />
+        <item itemvalue="JUnit.Assignment2TestGrading.test7" />
+        <item itemvalue="JUnit.Assignment2TestGrading.test6" />
+        <item itemvalue="JUnit.Assignment2TestGrading.test3" />
       </list>
     </recent_temporary>
   </component>
@@ -185,7 +184,13 @@
       <workItem from="1676603789808" duration="41544000" />
       <workItem from="1676839677643" duration="9781000" />
       <workItem from="1676921341701" duration="30131000" />
-      <workItem from="1677021619018" duration="14194000" />
+      <workItem from="1677021619018" duration="14225000" />
+      <workItem from="1677042318288" duration="598000" />
+      <workItem from="1677429957550" duration="662000" />
+      <workItem from="1677550541394" duration="1267000" />
+      <workItem from="1677554314089" duration="1030000" />
+      <workItem from="1677632414985" duration="9000" />
+      <workItem from="1677632531614" duration="447000" />
     </task>
     <task id="LOCAL-00001" summary="init commit">
       <created>1676604625701</created>
@@ -222,7 +227,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676953006189</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Final Submission fixed binary0,errors">
+      <created>1677037018791</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1677037018791</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,7 +269,8 @@
     <MESSAGE value="empty program, unary case 1, primary scenarios are fixed" />
     <MESSAGE value="setup inital project" />
     <MESSAGE value="10 test cases passed,Error 1&#10;                     Numlit&#10;                     Unary1&#10;                     EmptyProg&#10;                     StringLit&#10;                     Z&#10;                     Rand&#10;                     Ident&#10;                     Primary&#10;                     Condtional 0" />
-    <option name="LAST_COMMIT_MESSAGE" value="10 test cases passed,Error 1&#10;                     Numlit&#10;                     Unary1&#10;                     EmptyProg&#10;                     StringLit&#10;                     Z&#10;                     Rand&#10;                     Ident&#10;                     Primary&#10;                     Condtional 0" />
+    <MESSAGE value="Final Submission fixed binary0,errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Final Submission fixed binary0,errors" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
